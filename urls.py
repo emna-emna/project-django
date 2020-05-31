@@ -1,9 +1,8 @@
 from django.urls import re_path
 from . import views
 
-app_name = 'commandes'
+app_name = 'coupons'
 
 urlpatterns = [
-    re_path(r'^create/$', views.order_create, name='order_create'),
-
+    re_path(r'^apply/$', views.coupon_apply, name='apply'),
 ]
