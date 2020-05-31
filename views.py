@@ -1,25 +1,40 @@
-from django.shortcuts import render, redirect
-from django.utils import timezone
-from django.views.decorators.http import require_POST
-from .models import Coupons
-from .forms import CouponApplyForm
+from django.shortcuts import render, get_object_or_404
+from decimal import Decimal
+from django.conf import settings
+from django.urls import reverse
+from paypal.standard.forms import PayPalPaymentsForm
+from commandes.models import Commande
+from django.views.decorators.csrf import csrf_exempt
 
 
-# Create your views here.
+@csrf_exempt
+def payment_done(request):
+    return render(request, 'payment/done.html')
 
-@require_POST
-def coupon_apply(request):
-    now = timezone.now()
-    form = CouponApplyForm(request.POST)
-    if form.is_valid():
-        code = form.cleaned_data['code']
-        try:
-            coupon = Coupons.objects.get(code__iexact=code,
-                                         valid_form__lte=now,
-                                         valid_to__gte=now,
-                                         active=True)
-            request.session['coupon_id'] = coupon.id
-        except Coupons.DoesNotExist:
-            request.session['coupon_id'] = None
 
-        return redirect('cart:cart_detail')
+@csrf_exempt
+def payment_canceled(request):
+    return render(request, 'payment/canceled.html')
+
+
+def payment_process(request):
+    commande_id = request.session.get('commande_id')
+    commandes = get_object_or_404(Commande, id=commande_id)
+    host = request.get_host()
+
+    paypal_dict = {
+        'business': settings.PAYPAL_RECEIVER_EMAIL,
+        'amount': '%.2f' % commandes.get_total_cost().quantize(Decimal('.01')),
+        'item_name': 'Commande{}'.format(Commande.id),
+        'invoice': str(commandes.id),
+        'currency_code': 'USD',
+        'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
+        'return_url': 'http://{}{}'.format(host, reverse('payment:done')),
+        'cancel_return': 'http://{}{}'.format(host, reverse('payment:canceled')),
+    }
+    form = PayPalPaymentsForm(initial=paypal_dict)
+    context = {
+        'commande': commandes,
+        'form': form,
+    }
+    return render(request, 'payment/process.html', context)
