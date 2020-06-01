@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+{% include "registration/profile.html" %}
+
+<div class="container">
+    <form method="Post" action="{% url 'accounts:delete_profile'  %}">
+        {% csrf_token %}
+        <button type="submit"  class="btn btn-secondary">Supprimer profile </button>
+    </form>
+    <br>
+</div>
+
+{% endblock content %}
