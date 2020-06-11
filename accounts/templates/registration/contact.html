@@ -1,13 +1,55 @@
 
-{{% extends "base.html" %}
-{% load static %}
+{% extends "base.html" %}
+
 {% block content %}
 
-{% if envoi %}Votre message a bien été envoyé !{% endif %}
+<style>
+        .container{
+             padding-top: 15px;
+        }
 
-<form action="{% url "contact" %}" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Submit" />
-</form>
-{% endbloc content %}
+    #id_name{
+        width:100%
+        }
+
+    #id_message{
+        width:100%
+        }
+
+    #id_email{
+        width:100%
+        }
+	body
+		 {
+
+			background: #f2f2f2!important;
+		}
+
+
+</style>
+<main class=" pt-4">
+<br>
+<div class="container ">
+
+    <h2 class="pink-text"><strong><em>Nous contacter</em></strong></h2>
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+        {% endfor %}
+
+        {% for field in form.visible_fields %}
+        <div class="form-group">
+            {{ field.errors }}
+            <label>{{ field.label_tag }}</label>
+            <p>{{ field }}</p>
+        </div>
+        {% endfor %}
+        <button type="reset" class="btn btn-secondary">Annuler</button>
+         <button type="submit" class="btn btn-primary">Envoyer</button>
+    </form>
+</div>
+</main>
+
+{% endblock content %}
