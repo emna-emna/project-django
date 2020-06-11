@@ -122,7 +122,7 @@ def delete_profile(request):
     user.is_active = False
     user.save()
     logout(request)
-    messages.success(request, 'votre compte a été désactivé.')
+    messages.success(request, 'Profile successfully disabled.')
     return redirect("accounts:login_url")
 
 
@@ -131,7 +131,7 @@ def activer_profile(request):
     user = request.user
     user.is_active = False
     user.save()
-    messages.success(request, 'votre compte a été désactivé.')
+    messages.success(request, 'Profile successfully disabled.')
     return redirect("accounts:view_profile")
 
 
@@ -145,10 +145,10 @@ def contact(request):
             subject = f'Message from {form.cleaned_data["nom"]}'
             message = form.cleaned_data["message"]
             sender = form.cleaned_data["email"]
-            recipients = ['']
+            recipients = ['benabdallah65emna@gmail.com']
             try:
                 send_mail(subject, message, sender, recipients, fail_silently=True)
             except BadHeaderError:
                 return HttpResponse('Invalid header found')
-            return HttpResponse('votre message a été envoyé avec succès')
+            return HttpResponse('Success...Your email has been sent')
     return render(request, 'registration/contact.html', {'form': form})
