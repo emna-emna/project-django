@@ -2,15 +2,114 @@
 
 
 {% block content %}
-{% include "registration/profile.html" %}
-<title>Profile</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+		body
+		 {
+
+			background: #f2f2f2!important;
+		}
+		navbar{
+		background: #fff!important;
+		}
+</style>
+<body>
+
 <div class="container">
-    <form method="post">
+    <nav class="navbar navbar-light white">
+        <div class="container">
+            <div class="navbar-right">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Home</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                {% if user.is_authenticated %}
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'accounts:view_profile' %}">Profile</a></li>
+                    <li><a href="{% url 'accounts:edit_profile' %}">Editer Profile</a></li>
+                    <i class="fas fa-pencil"></i>
+                    <li><a href="{% url 'accounts:change_password' %}">Changer mot de passe</a></li>
+                    <li><a href="{% url 'accounts:delete_profile' %}" onclick="return confirm('voulez-vous vraiment  désactiver votre compte');">Désactiver Compte</a></li>
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{% url 'accounts:logout_view' %}">Déconnexion</a></li>
+                </ul>
+                {% else %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{% url 'accounts:login_url' %}">Login</a></li>
+                    <li><a href="{% url 'accounts:register_view' %}">Register</a></li>
+                    <li><a href="{% url 'accounts:activer_profile' %}">Activer Compte</a></li>
+                </ul>
+                {% endif %}
+            </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+    </nav>
+</div>
+</center>
+
+</body>
+<script
+        src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+
+
+
+<main class=" pt-4">
+
+
+
+
+	<div class="container h-100">
+            <center><h2><strong class="nav"><em>Editer profile </em> </strong></h2></center>
+  <center> <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit"  class="btn btn-secondary">Valider </button>
+       <div class="row">
+            <div class="col-md-6 mb-4">
+         <div class="md-form mb-7">
+                <label for="email" class=""> </label>
+            </div>
+
+            {{form.email}}
+            <div class="md-form mb-5">
+                <label for="name" class=""></label>
+            </div>
+            {{form.first_name}}
+
+            <div class="md-form mb-5">
+                <label for="prénom"></label>
+            </div>
+            {{form.last_name}}
+            <br>
+        <button type="submit"  class="btn btn-primary">Valider </button>
     </form>
+      </center>
     <br>
 </div>
+<script>
+
+		//Query All input fields
+		var form_fields = document.getElementsByTagName('input')
+		form_fields[2].placeholder='Votre email ';
+		form_fields[3].placeholder='Votre Prénom';
+		form_fields[4].placeholder='Votre nom';
+
+		for (var field in form_fields){
+			form_fields[field].className += ' form-control'
+		}
+	</script>
 
 {% endblock content %}
