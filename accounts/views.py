@@ -6,6 +6,9 @@ from django.contrib.auth import authenticate, login, logout
 from .decorators import allowed_users
 from django.contrib.auth.decorators import login_required
 from .models import *
+from .forms import ContactForm
+from django.core.mail import send_mail, BadHeaderError
+from django.http import HttpResponse
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from accounts.forms import (
@@ -61,6 +64,7 @@ def view_profile(request, pk=None):
         user = User.objects.get(pk=pk)
     else:
         user = request.user
+
     args = {'user': user}
     return render(request, 'registration/profile.html', args)
 
@@ -89,6 +93,7 @@ def change_password(request):
         else:
             return redirect(reverse('accounts:change_password'))
     else:
+        messages.success(request, 'votre mot de passe a été modifié.')
         form = PasswordChangeForm(user=request.user)
 
         args = {'form': form}
@@ -117,7 +122,7 @@ def delete_profile(request):
     user.is_active = False
     user.save()
     logout(request)
-    messages.success(request, 'Profile successfully disabled.')
+    messages.success(request, 'votre compte a été désactivé.')
     return redirect("accounts:login_url")
 
 
@@ -126,5 +131,24 @@ def activer_profile(request):
     user = request.user
     user.is_active = False
     user.save()
-    messages.success(request, 'Profile successfully disabled.')
+    messages.success(request, 'votre compte a été désactivé.')
     return redirect("accounts:view_profile")
+
+
+
+
+def contact(request):
+    form = ContactForm()
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            subject = f'Message from {form.cleaned_data["nom"]}'
+            message = form.cleaned_data["message"]
+            sender = form.cleaned_data["email"]
+            recipients = ['']
+            try:
+                send_mail(subject, message, sender, recipients, fail_silently=True)
+            except BadHeaderError:
+                return HttpResponse('Invalid header found')
+            return HttpResponse('votre message a été envoyé avec succès')
+    return render(request, 'registration/contact.html', {'form': form})
