@@ -1,10 +1,15 @@
  {% block content %}
  {% load static %}
+ <style>
+
+ .fa-envelope{ color:#773399; }
+
+ </style>
 <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
     <div class="container">
 
         <!-- Brand -->
-        <a class="clearfix d-none d-sm-inline-block  " href="/"><img src="{% static 'img/yoopy.png' %}"width="140px" height="80px"> </a>
+        <a class="clearfix d-none d-sm-inline-block  " href="/"><img src="{% static 'img/yoopy.png' %}"width="140px" height="70px"> </a>
 
 
         <!-- Collapse -->
@@ -25,10 +30,12 @@
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
+                <!--
                 <li class="nav-item">
                     <a class="nav-link waves-effect" href="{% url 'commandes:order_create' %}"
                        target="_blank"><strong>Paiement</strong></a>
                 </li>
+                !-->
                 <li class="nav-item">
                     <a class="nav-link waves-effect" href=" " target="_blank"></a>
 
@@ -45,11 +52,13 @@
 
                         <a class="nav-link waves-effect" href="{% url 'cart:cart_detail' %}">
 
-                            <span class="badge red z-depth-1 mr-1">{{cart.get_total_quantity}}</span>
+                            <span class="badge blue z-depth-1 mr-1">{{cart.get_total_quantity}}</span>
 
                             <i class="fas fa-shopping-cart"></i>
                             <span class="clearfix d-none d-sm-inline-block "> <strong>Panier </strong></span>
                         </a>
+
+
 
                     </li>
                     {% if request.user.is_authenticated %}
@@ -79,6 +88,13 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="nav-item ">
+                        <a class="nav-link waves-effect" href="{% url 'comptes:contact' %}">
+                            <i class="far fa-envelope"></i>
+                            <span class="clearfix d-none d-sm-inline-block"><strong>Contact</strong> </span>
+                        </a>
+                    </li>
+
                 </ul>
             </div>
         </div>
