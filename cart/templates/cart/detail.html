@@ -1,11 +1,10 @@
-{{% extends "base.html" %}
+{% extends "base.html" %}
 {% load static %}
 {% block content %}
 
 
-
-
 <main class=" pt-4">
+
 
 
         <table class="position">
@@ -45,9 +44,9 @@
                     <form method="post" action="{% url 'cart:cart_add' produit.id %}">
                         {% csrf_token %}
                         {{item.update_quantity_form.quantity}}
+                        {{item.update_quantity_form.update}}
+                      <input type="submit" value="modifier" class="btn-primary"></input>
 
-                      <button class=" badge badge-primary badge-pill ">+</button>
-                     
 
 
                     </form>
@@ -86,18 +85,18 @@
                 </tr> #}-->
             {% if cart.coupon %}
             <tr class="gray">
-                <td>Subtotal</td>
+                <td></td>
                 <td colspan="4"></td>
-                <td class="num"> {{cart.get_total_price}}dt</td>
+                <td class="num"> </td>
             </tr>
             <tr class="gray2">
                 {% block trans %}
                 {% with code=cart.coupon.code discount=cart.coupon.discount%}
-                <td colspan="2">"{{code}}" coupon ({{discount}})% off</td>
+                <td colspan="2" class="blue-text">"{{code}}" coupon ({{discount}})% off</td>
                 {% endwith %}
                 {% endblock trans %}
                 <td colspan="3"></td>
-                <td class="num neg"> - {{cart.get_discount|floatformat:"2"}}DT</td>
+                <td class="num neg blue-text"> - {{cart.get_discount|floatformat:"2"}}DT</td>
             </tr>
             {% endif %}
             <tr class="total">
@@ -123,7 +122,7 @@
             </p>
             {% endfor %}
             {% else %}
-            <p class="text-right navbar right">
+            <p class="text-right navbar  right ">
                 <a href="{% url 'shop:product_list' %}">COMMANCEZ VOS ACHATS</a>
             </p>
 
