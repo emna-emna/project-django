@@ -1,19 +1,24 @@
 {% extends "base.html" %}
+
 {% block content %}
-<head>
+<style>
+
+</style>
+
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-</head>
-
 <body>
+
 <br>
-<div class="container">
+<div class="container h-100">
+      <h2><strong><em>Bienvenue 💙💜💙</em></strong></h2>
     <nav class="navbar t">
-        <div class="container-fluid">
-            <div class="navbar-header">
+       <div class="container h-100">
+            <div class="navbar-right">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
                         aria-expanded="false" aria-controls="navbar">
                     <span class="sr-only">Toggle navigation</span>
@@ -30,13 +35,14 @@
                     <li><a href="{% url 'accounts:edit_profile' %}">Editer Profile</a></li>
                     <i class="fas fa-pencil"></i>
                     <li><a href="{% url 'accounts:change_password' %}">Changer mot de passe</a></li>
-                    <li><a href="{% url 'accounts:delete_profile' %}" onclick="return confirm('Are you sure want to dele');">Supprimer Compte</a></li>
+                    <li><a href="{% url 'accounts:delete_profile' %}" onclick="return confirm('voulez-vous vraiment désactiver votre compte ?');">Désactiver Compte </a></li>
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{% url 'accounts:logout_view' %}">Déconnexion</a></li>
+                    <li><a href="{% url 'accounts:logout_view' %}">Déconnexion</a>
                 </ul>
                 {% else %}
+
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="{% url 'accounts:login_url' %}">Login</a></li>
                     <li><a href="{% url 'accounts:register_view' %}">Register</a></li>
@@ -50,6 +56,8 @@
 </center>
 
 </body>
+<br>
+
 <script
         src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
