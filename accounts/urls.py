@@ -17,4 +17,5 @@ urlpatterns = [
     path('edit_all/', views.edit_all, name='custmize'),
     path('delete_profile/', views.delete_profile, name='delete_profile'),
     path('activer_profile/', views.activer_profile, name='activer_profile'),
+    path('contact/', views.contact, name='contact'),
 ]
