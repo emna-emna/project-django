@@ -1,6 +1,6 @@
 django==3.0.6
 django-autoslug-iplweb==1.9.5
-pillow==7.1.1
+pillow==8.1.1
 django-bootstrap4==1.1.1
 djangorestframework==3.11.0
 django-paypal==1.0.0
